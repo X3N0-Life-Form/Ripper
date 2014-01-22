@@ -13,6 +13,8 @@ public class One {
 	 * One is an archive.
 	 */
 	private ISevenZipInArchive archive;
+	
+	
 	/**
 	 * One has a name.
 	 */
@@ -24,7 +26,7 @@ public class One {
 	}
 	
 	public String getName() {
-		return name;		
+		return name;
 	}
 	
 }

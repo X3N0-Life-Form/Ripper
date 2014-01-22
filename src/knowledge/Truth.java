@@ -15,10 +15,12 @@ public class Truth implements Serializable {
 	 */
 	private static final long serialVersionUID = 4547875632622576521L;
 	
-	private List<String> validPasswords;
+	private List<String> validPasswords = new ArrayList<String>();
+	
+	
 	
 	public Truth() {
-		validPasswords = new ArrayList<String>();
+		
 	}
 	
 	public void addValidPassword(String pass) {
