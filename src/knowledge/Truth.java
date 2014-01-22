@@ -1,9 +1,14 @@
-package rest;
+package knowledge;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Save knowledge regarding Ones and Words. Lacks accuracy.
+ * @author X3N0-Life-Form
+ *
+ */
 public class Truth implements Serializable {
 	/**
 	 * 

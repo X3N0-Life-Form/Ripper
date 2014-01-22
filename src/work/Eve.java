@@ -1,16 +1,16 @@
 package work;
 
 /**
- * The one that opens forcibly.
- * @author X3N0-Life-Form
+ * The one that creates.
+ * @author X3N0-Life-form
  *
  */
-public class Knife implements Runnable {
+public class Eve implements Runnable {
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 }
