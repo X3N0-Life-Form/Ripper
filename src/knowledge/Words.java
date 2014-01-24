@@ -51,4 +51,8 @@ public class Words implements Serializable {
 	public void setRightWord(String word) {
 		rightWord = word;
 	}
+	
+	public String getRightWord() {
+		return rightWord;
+	}
 }
