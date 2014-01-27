@@ -26,6 +26,6 @@ public class Cypher {
 	}
 	
 	public static String getArchiveName(String url) {
-		return null;
+		return url.substring(0, url.lastIndexOf('.'));
 	}
 }

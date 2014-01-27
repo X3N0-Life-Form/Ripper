@@ -34,4 +34,11 @@ public class CypherTests {
 		ArchiveFormat result = Cypher.getArchiveFormat(url);
 		assertTrue(result == ArchiveFormat.RAR);
 	}
+	
+	@Test
+	public void test_getArchiveName() {
+		String url = "e.zorg";
+		String name = Cypher.getArchiveName(url);
+		assertEquals("e", name);
+	}
 }
