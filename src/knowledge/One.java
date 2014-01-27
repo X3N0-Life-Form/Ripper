@@ -12,7 +12,7 @@ public class One {
 	/**
 	 * One is an archive.
 	 */
-	private ISevenZipInArchive archive;
+	private transient ISevenZipInArchive archive = null;
 	
 	
 	/**
@@ -20,13 +20,20 @@ public class One {
 	 */
 	private String name;
 	
-	public One(ISevenZipInArchive archive, String name) {
-		this.archive = archive;
+	public One(String name) {
 		this.name = name;
 	}
 	
 	public String getName() {
 		return name;
+	}
+
+	public ISevenZipInArchive getArchive() {
+		return archive;
+	}
+
+	public void setArchive(ISevenZipInArchive archive) {
+		this.archive = archive;
 	}
 	
 }
