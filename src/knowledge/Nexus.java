@@ -4,18 +4,20 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
-import utils.Cypher;
-import utils.CypherException;
 import net.sf.sevenzipjbinding.ArchiveFormat;
 import net.sf.sevenzipjbinding.IInStream;
 import net.sf.sevenzipjbinding.ISevenZipInArchive;
 import net.sf.sevenzipjbinding.PropID;
+import net.sf.sevenzipjbinding.PropertyInfo;
 import net.sf.sevenzipjbinding.SevenZip;
 import net.sf.sevenzipjbinding.SevenZipException;
 import net.sf.sevenzipjbinding.impl.RandomAccessFileInStream;
-import net.sf.sevenzipjbinding.impl.VolumedArchiveInStream;
+import utils.Cypher;
+import utils.CypherException;
 
 /**
  * A nexus of knowledge.
@@ -24,10 +26,19 @@ import net.sf.sevenzipjbinding.impl.VolumedArchiveInStream;
  */
 public class Nexus {
 
+	public Set<One> getHallOfSuccess() {
+		return hallOfSuccess;
+	}
+
 	/**
 	 * One has a Words.
 	 */
 	private Map<One, Words> chamberOfWords = new TreeMap<One, Words>();
+	/**
+	 * One can be successful.
+	 */
+	private Set<One> hallOfSuccess = new TreeSet<One>();
+	
 	/**
 	 * Universal Truth.
 	 */
@@ -67,10 +78,11 @@ public class Nexus {
 		IInStream inStream = new RandomAccessFileInStream(raf);
 		ISevenZipInArchive archive = SevenZip.openInArchive(format, inStream);
 		one.setArchive(archive);
-		if (archive.getArchiveProperty(PropID.ENCRYPTED) != null) {
-			//the words
+		
+		if (true) {
+			chamberOfWords.put(one, new Words());
 		} else {
-			//put on done list
+			hallOfSuccess.add(one);
 		}
 		
 		return one;

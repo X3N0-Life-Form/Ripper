@@ -34,6 +34,8 @@ public class NexusTests {
 		Nexus n = new Nexus();
 		One test01 = n.openOne(URL_TEST01);
 		assertNotNull(test01.getArchive());
+		assertTrue(n.getChamberOfWords().containsKey(test01));
+		assertFalse(n.getHallOfSuccess().contains(test01));
 	}
 	
 

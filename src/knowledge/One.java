@@ -7,7 +7,7 @@ import net.sf.sevenzipjbinding.ISevenZipInArchive;
  * @author X3N0-Life-Form
  *
  */
-public class One {
+public class One implements Comparable<One> {
 
 	/**
 	 * One is an archive.
@@ -34,6 +34,11 @@ public class One {
 
 	public void setArchive(ISevenZipInArchive archive) {
 		this.archive = archive;
+	}
+
+	@Override
+	public int compareTo(One o) {
+		return this.name.compareTo(o.name);
 	}
 	
 }
