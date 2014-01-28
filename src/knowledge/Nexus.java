@@ -11,6 +11,7 @@ import utils.CypherException;
 import net.sf.sevenzipjbinding.ArchiveFormat;
 import net.sf.sevenzipjbinding.IInStream;
 import net.sf.sevenzipjbinding.ISevenZipInArchive;
+import net.sf.sevenzipjbinding.PropID;
 import net.sf.sevenzipjbinding.SevenZip;
 import net.sf.sevenzipjbinding.SevenZipException;
 import net.sf.sevenzipjbinding.impl.RandomAccessFileInStream;
@@ -62,11 +63,15 @@ public class Nexus {
 		String name = Cypher.getArchiveName(url);
 		One one = new One(name);
 		
-		RandomAccessFile raf = new RandomAccessFile(file, "read");
+		RandomAccessFile raf = new RandomAccessFile(file, "r");
 		IInStream inStream = new RandomAccessFileInStream(raf);
 		ISevenZipInArchive archive = SevenZip.openInArchive(format, inStream);
-		
-		
+		one.setArchive(archive);
+		if (archive.getArchiveProperty(PropID.ENCRYPTED) != null) {
+			//the words
+		} else {
+			//put on done list
+		}
 		
 		return one;
 	}
