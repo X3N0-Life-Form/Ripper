@@ -1,6 +1,5 @@
 package knowledge;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +8,7 @@ import java.util.List;
  * @author Words
  *
  */
-public class Words implements Serializable {
+public class Words implements Knowledge {
 
 	/**
 	 * 
@@ -29,6 +28,7 @@ public class Words implements Serializable {
 	 */
 	private String rightWord = null;
 	
+	private String name = "nameless";
 	
 	
 	
@@ -54,5 +54,20 @@ public class Words implements Serializable {
 	
 	public String getRightWord() {
 		return rightWord;
+	}
+
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public String getFileExtension() {
+		return ".words";
 	}
 }

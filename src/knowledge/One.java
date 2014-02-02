@@ -16,7 +16,13 @@ import net.sf.sevenzipjbinding.impl.RandomAccessFileInStream;
  * @author X3N0-Life-Form
  *
  */
-public class One implements Comparable<One> {
+public class One implements Knowledge, Comparable<One> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3355299628533734365L;
+
 
 	/**
 	 * One is an archive.
@@ -37,6 +43,12 @@ public class One implements Comparable<One> {
 		this.url = url;
 	}
 	
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -69,5 +81,10 @@ public class One implements Comparable<One> {
 		IInStream inStream = new RandomAccessFileInStream(raf);
 		ISevenZipInArchive archive = SevenZip.openInArchive(format, inStream);
 		this.archive = archive;
+	}
+
+	@Override
+	public String getFileExtension() {
+		return ".one";
 	}
 }

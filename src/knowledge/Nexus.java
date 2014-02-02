@@ -2,7 +2,6 @@ package knowledge;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -18,13 +17,17 @@ import utils.CypherException;
  * @author X3N0-Life-Form
  *
  */
-public class Nexus implements Serializable {
+public class Nexus implements Knowledge {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6079721389844172520L;
 
+	/**
+	 * A Nexus can bear a name.
+	 */
+	private String name = "nameless";
 
 	/**
 	 * One has a Words.
@@ -75,6 +78,21 @@ public class Nexus implements Serializable {
 		chamberOfWords.put(one, new Words());
 		
 		return one;
+	}
+
+	@Override
+	public void setName(String name) { //TODO: extract abstract class
+		this.name = name;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public String getFileExtension() {
+		return ".nexus";
 	}
 	
 }
