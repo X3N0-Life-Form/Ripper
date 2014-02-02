@@ -32,10 +32,9 @@ public class NexusTests {
 	@Test
 	public void test_openOnePasswordProtected() throws FileNotFoundException, CypherException, SevenZipException, KnowledgeException {
 		Nexus n = new Nexus();
-		One test01 = n.openOne(URL_TEST01);
-		assertNotNull(test01.getArchive());
+		One test01 = n.prepareOne(URL_TEST01);
+		assertNull(test01.getArchive());
 		assertTrue(n.getChamberOfWords().containsKey(test01));
-		assertFalse(n.getHallOfSuccess().contains(test01));
 	}
 	
 

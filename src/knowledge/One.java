@@ -1,6 +1,15 @@
 package knowledge;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.RandomAccessFile;
+
+import net.sf.sevenzipjbinding.ArchiveFormat;
+import net.sf.sevenzipjbinding.IInStream;
 import net.sf.sevenzipjbinding.ISevenZipInArchive;
+import net.sf.sevenzipjbinding.SevenZip;
+import net.sf.sevenzipjbinding.SevenZipException;
+import net.sf.sevenzipjbinding.impl.RandomAccessFileInStream;
 
 /**
  * One interfaces with archive. Speaks for archive.
@@ -19,9 +28,13 @@ public class One implements Comparable<One> {
 	 * One has a name.
 	 */
 	private String name;
+	private ArchiveFormat format;
+	private String url;
 	
-	public One(String name) {
+	public One(String name, ArchiveFormat format, String url) {
 		this.name = name;
+		this.format = format;
+		this.url = url;
 	}
 	
 	public String getName() {
@@ -41,4 +54,20 @@ public class One implements Comparable<One> {
 		return this.name.compareTo(o.name);
 	}
 	
+	public boolean isArchiveLoaded() {
+		return archive != null;
+	}
+	
+	/**
+	 * Loads One's archive. It can then be operated on.
+	 * @throws FileNotFoundException
+	 * @throws SevenZipException
+	 */
+	public void loadArchive() throws FileNotFoundException, SevenZipException {
+		File file = new File(url);
+		RandomAccessFile raf = new RandomAccessFile(file, "r");
+		IInStream inStream = new RandomAccessFileInStream(raf);
+		ISevenZipInArchive archive = SevenZip.openInArchive(format, inStream);
+		this.archive = archive;
+	}
 }

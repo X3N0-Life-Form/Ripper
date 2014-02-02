@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Save knowledge regarding Ones and Words. Lacks accuracy.
+ * Saves knowledge regarding true words.
  * @author X3N0-Life-Form
  *
  */
