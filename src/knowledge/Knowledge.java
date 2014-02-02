@@ -11,6 +11,10 @@ public interface Knowledge extends Serializable {
 	
 	public void setName(String name);
 	public String getName();
+	/**
+	 * All Knowledge must provide its file extension, if it is to be saved.
+	 * @return String .something
+	 */
 	public String getFileExtension();
 
 }

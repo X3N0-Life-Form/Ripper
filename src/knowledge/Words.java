@@ -8,7 +8,7 @@ import java.util.List;
  * @author Words
  *
  */
-public class Words implements Knowledge {
+public class Words extends AbstractKnowledge {
 
 	/**
 	 * 
@@ -27,10 +27,6 @@ public class Words implements Knowledge {
 	 * The word that was spoken rightly.
 	 */
 	private String rightWord = null;
-	
-	private String name = "nameless";
-	
-	
 	
 	public String[] getSpokenWords() {
 		return spokenWords;
@@ -54,16 +50,6 @@ public class Words implements Knowledge {
 	
 	public String getRightWord() {
 		return rightWord;
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String getName() {
-		return name;
 	}
 
 	@Override

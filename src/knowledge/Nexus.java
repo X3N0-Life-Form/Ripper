@@ -17,17 +17,12 @@ import utils.CypherException;
  * @author X3N0-Life-Form
  *
  */
-public class Nexus implements Knowledge {
+public class Nexus extends AbstractKnowledge {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6079721389844172520L;
-
-	/**
-	 * A Nexus can bear a name.
-	 */
-	private String name = "nameless";
 
 	/**
 	 * One has a Words.
@@ -80,15 +75,7 @@ public class Nexus implements Knowledge {
 		return one;
 	}
 
-	@Override
-	public void setName(String name) { //TODO: extract abstract class
-		this.name = name;
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
+	
 
 	@Override
 	public String getFileExtension() {

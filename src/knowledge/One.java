@@ -16,7 +16,7 @@ import net.sf.sevenzipjbinding.impl.RandomAccessFileInStream;
  * @author X3N0-Life-Form
  *
  */
-public class One implements Knowledge, Comparable<One> {
+public class One extends AbstractKnowledge implements Comparable<One> {
 
 	/**
 	 * 
@@ -29,11 +29,6 @@ public class One implements Knowledge, Comparable<One> {
 	 */
 	private transient ISevenZipInArchive archive = null;
 	
-	
-	/**
-	 * One has a name.
-	 */
-	private String name;
 	private ArchiveFormat format;
 	private String url;
 	
@@ -41,16 +36,6 @@ public class One implements Knowledge, Comparable<One> {
 		this.name = name;
 		this.format = format;
 		this.url = url;
-	}
-	
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	@Override
-	public String getName() {
-		return name;
 	}
 
 	public ISevenZipInArchive getArchive() {
