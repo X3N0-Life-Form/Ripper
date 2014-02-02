@@ -40,6 +40,9 @@ public class Words extends AbstractKnowledge {
 		spokenWords[1] = word;
 	}
 	
+	/**
+	 * Store spokenWords into oldWords.
+	 */
 	public void storeWords() {
 		oldWords.add(spokenWords);
 	}
