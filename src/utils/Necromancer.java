@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import knowledge.Knowledge;
 
 /**
- * Master of life and death. Can bury or resurect knowledge if needs be.
+ * Master of life and death. Can bury or resurrect knowledge if needs be.
  * @author X3N0-Life-Form
  *
  */
@@ -17,7 +17,7 @@ public class Necromancer {
 	private static String pathToKnowledge = "./knowledge";
 
 	/**
-	 * No instanciation for you.
+	 * No instantiation for you.
 	 */
 	private Necromancer() {}
 	
