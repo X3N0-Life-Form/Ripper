@@ -7,6 +7,7 @@ import java.io.RandomAccessFile;
 import net.sf.sevenzipjbinding.ArchiveFormat;
 import net.sf.sevenzipjbinding.IInStream;
 import net.sf.sevenzipjbinding.ISevenZipInArchive;
+import net.sf.sevenzipjbinding.PropID;
 import net.sf.sevenzipjbinding.SevenZip;
 import net.sf.sevenzipjbinding.SevenZipException;
 import net.sf.sevenzipjbinding.impl.RandomAccessFileInStream;
@@ -71,5 +72,16 @@ public class One extends AbstractKnowledge implements Comparable<One> {
 	@Override
 	public String getFileExtension() {
 		return ".one";
+	}
+
+	/**
+	 * 
+	 * @return Entry names
+	 */
+	public String[] getArchiveEntries() {
+		int size = 0;
+		String[] entries = new String[size];
+		
+		return entries;
 	}
 }

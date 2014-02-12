@@ -2,6 +2,7 @@ package work;
 
 import java.io.FileNotFoundException;
 
+import work.dirt.ExtractCallback;
 import net.sf.sevenzipjbinding.ISevenZipInArchive;
 import net.sf.sevenzipjbinding.SevenZipException;
 import knowledge.One;
@@ -26,9 +27,9 @@ public class Key implements Runnable {
 			ISevenZipInArchive archive = one.getArchive();
 			int numberOfItems = archive.getNumberOfItems();
 			int[] indices = Worker.getSequentialIndices(numberOfItems);
-			//TODO:need archive callback
+			ExtractCallback callback = new ExtractCallback(one.getName(), one.getArchiveEntries());
 			for (int i = 0; i < numberOfItems; i++) {
-				archive.extract(indices, false, null);
+				archive.extract(indices, false, callback);
 			}
 		} catch (FileNotFoundException | SevenZipException e) {
 			//TODO: log error
