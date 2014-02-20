@@ -1,6 +1,7 @@
 package work.dirt;
 
 import java.io.File;
+import java.io.IOException;
 
 import net.sf.sevenzipjbinding.ExtractAskMode;
 import net.sf.sevenzipjbinding.ExtractOperationResult;
@@ -36,26 +37,30 @@ public class ExtractCallback implements IArchiveExtractCallback {
 	@Override
 	public ISequentialOutStream getStream(int index, ExtractAskMode extractAskMode)
 			throws SevenZipException {
-		switch (extractAskMode) {
-		case EXTRACT:
-			//TODO: log
-			currentIndex = index;
-			currentCompletionValue = 0;
-			currentFile = new File(destinationDirectory, archiveEntries[index]);
-			currentOutStream = new SequentialOutStream(currentFile);
-			break;
-		case SKIP:
-			currentIndex = -1;
-			currentCompletionValue = 0;
-			currentFile = null;
-			currentOutStream = null;
-			break;
-		case TEST:
-		case UNKNOWN_ASK_MODE:
-		default:
-			throw new UnsupportedOperationException("Action " + extractAskMode + " is unsupported");
+		try {
+			switch (extractAskMode) {
+			case EXTRACT:
+				//TODO: log
+				currentIndex = index;
+				currentCompletionValue = 0;
+				currentFile = new File(destinationDirectory, archiveEntries[currentIndex]);
+				currentOutStream = new SequentialOutStream(currentFile);
+				break;
+			case SKIP:
+				currentIndex = -1;
+				currentCompletionValue = 0;
+				currentFile = null;
+				currentOutStream = null;
+				break;
+			case TEST:
+			case UNKNOWN_ASK_MODE:
+			default:
+				throw new UnsupportedOperationException("Action " + extractAskMode + " is unsupported");
+			}
+			return currentOutStream;
+		} catch (IOException e) {
+			throw new SevenZipException(e);
 		}
-		return currentOutStream;
 	}
 
 	@Override

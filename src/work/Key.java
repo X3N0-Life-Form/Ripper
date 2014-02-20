@@ -1,11 +1,11 @@
 package work;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
-import work.dirt.ExtractCallback;
+import knowledge.One;
 import net.sf.sevenzipjbinding.ISevenZipInArchive;
 import net.sf.sevenzipjbinding.SevenZipException;
-import knowledge.One;
+import work.dirt.ExtractCallback;
 
 /**
  * The one that opens.
@@ -23,16 +23,27 @@ public class Key implements Runnable {
 	@Override
 	public void run() {
 		try {
-			one.loadArchive();
-			ISevenZipInArchive archive = one.getArchive();
-			int numberOfItems = archive.getNumberOfItems();
-			int[] indices = Worker.getSequentialIndices(numberOfItems);
-			ExtractCallback callback = new ExtractCallback(one.getName(), one.getArchiveEntries());
-			for (int i = 0; i < numberOfItems; i++) {
-				archive.extract(indices, false, callback);
-			}
-		} catch (FileNotFoundException | SevenZipException e) {
+			extract();
+		} catch (SevenZipException | IOException e) {
 			//TODO: log error
+		}
+	}
+
+	/**
+	 * Extraction subroutine.
+	 * @throws SevenZipException
+	 * @throws IOException 
+	 */
+	public void extract() throws SevenZipException, IOException {
+		one.loadArchive();
+		ISevenZipInArchive archive = one.getArchive();
+		int numberOfItems = archive.getNumberOfItems();
+		int[] indices = Worker.getSequentialIndices(numberOfItems);
+		System.out.println(one.getName());
+		Worker.createFolder(one.getName());
+		ExtractCallback callback = new ExtractCallback(one.getName(), one.getArchiveEntries());
+		for (int i = 0; i < numberOfItems; i++) {
+			archive.extract(indices, false, callback);
 		}
 	}
 

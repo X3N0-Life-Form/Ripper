@@ -77,10 +77,16 @@ public class One extends AbstractKnowledge implements Comparable<One> {
 	/**
 	 * 
 	 * @return Entry names
+	 * @throws SevenZipException 
 	 */
-	public String[] getArchiveEntries() {
+	public String[] getArchiveEntries() throws SevenZipException {
 		int size = 0;
+		size = archive.getNumberOfItems();
+		
 		String[] entries = new String[size];
+		for (int index = 0; index < size; index++) {
+			entries[index] = archive.getStringProperty(index, PropID.PATH);
+		}
 		
 		return entries;
 	}

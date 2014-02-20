@@ -1,5 +1,8 @@
 package work;
 
+import java.io.File;
+import java.io.IOException;
+
 /**
  * A Worker makes stuff happen.
  * @author X3N0-Life-Form
@@ -24,6 +27,21 @@ public abstract class Worker {
 			indices[i] = i;
 		}
 		return indices;
+	}
+
+	/**
+	 * Creates the specified folder.
+	 * @param name
+	 * @throws IOException
+	 */
+	public static void createFolder(String name) throws IOException {
+		if (!name.endsWith("/")) {//TODO:stuff with destination (see above)
+			name += "/";
+		}
+		File folder = new File(name);
+		if (folder.exists() && !folder.isDirectory()) {
+			folder.mkdir();
+		}
 	}
 	
 }

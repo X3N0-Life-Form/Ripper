@@ -15,14 +15,12 @@ public class SequentialOutStream implements ISequentialOutStream, Closeable {
 	/**
 	 * Creates the specified file and opens up an output stream.
 	 * @param file
+	 * @throws IOException 
 	 */
-	public SequentialOutStream(File file) {
-		try {
-			file.createNewFile();
-			fos = new FileOutputStream(file);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public SequentialOutStream(File file) throws IOException {
+		System.err.println(file);
+		file.createNewFile();
+		fos = new FileOutputStream(file);
 	}
 
 	@Override
