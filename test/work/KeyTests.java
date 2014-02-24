@@ -36,6 +36,8 @@ public class KeyTests {
 		two = nexus.prepareOne(URLS.URL_TEST02);
 		key_1 = new Key(one);
 		key_2 = new Key(two);
+		key_1.setDestination(URLS.TEST_RESOURCES_RESULTS);
+		key_2.setDestination(URLS.TEST_RESOURCES_RESULTS);
 	}
 
 	@After
@@ -44,12 +46,12 @@ public class KeyTests {
 	}
 
 	@Test
-	public void test_extract_password() throws SevenZipException, IOException {
+	public void test_extract_password_KO() throws SevenZipException, IOException, WorkerException {
 		key_1.extract();
 	}
 	
 	@Test
-	public void test_extract_OK() throws SevenZipException, IOException {
+	public void test_extract_OK() throws SevenZipException, IOException, WorkerException {
 		key_2.extract();
 		assertTrue(true);
 	}

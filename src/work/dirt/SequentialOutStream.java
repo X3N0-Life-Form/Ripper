@@ -18,7 +18,6 @@ public class SequentialOutStream implements ISequentialOutStream, Closeable {
 	 * @throws IOException 
 	 */
 	public SequentialOutStream(File file) throws IOException {
-		System.err.println(file);
 		file.createNewFile();
 		fos = new FileOutputStream(file);
 	}
