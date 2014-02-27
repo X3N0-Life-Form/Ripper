@@ -29,7 +29,7 @@ public class WorkerTests {
 	@Before
 	public void setUp() throws Exception {
 		nexus = new Nexus();
-		one = nexus.prepareOne(URLS.URL_TEST01);
+		one = nexus.prepareOne(URLS.TEST01_ARCHIVE);
 		worker = new Key(one);
 		worker.setDestination(URLS.TEST_RESOURCES_RESULTS);
 	}

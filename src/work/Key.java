@@ -32,11 +32,12 @@ public class Key extends Worker implements Runnable {
 
 	/**
 	 * Extraction subroutine.
+	 * @return Destination directory
 	 * @throws SevenZipException
 	 * @throws IOException Destination directory could not be created.
 	 * @throws WorkerException Destination folder not set.
 	 */
-	public void extract() throws SevenZipException, IOException, WorkerException {
+	public File extract() throws SevenZipException, IOException, WorkerException {
 		if (destination == null) {
 			throw new WorkerException("Destination folder is not set!");
 		}
@@ -46,13 +47,17 @@ public class Key extends Worker implements Runnable {
 		if (!folder.exists()) {
 			throw new IOException("Destination directory could not be created.");
 		}
+		
 		ISevenZipInArchive archive = one.getArchive();
 		int numberOfItems = archive.getNumberOfItems();
 		int[] indices = Worker.getSequentialIndices(numberOfItems);
 		ExtractCallback callback = new ExtractCallback(folder.getAbsolutePath(), one.getArchiveEntries());
+		
 		for (int i = 0; i < numberOfItems; i++) {
 			archive.extract(indices, false, callback);
 		}
+		
+		return folder;
 	}
 
 }
