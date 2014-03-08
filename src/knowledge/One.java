@@ -58,7 +58,7 @@ public class One extends AbstractKnowledge implements Comparable<One> {
 	
 	/**
 	 * Loads One's archive. It can then be operated on.
-	 * @throws FileNotFoundException Self explainatory.
+	 * @throws FileNotFoundException Self explanatory.
 	 * @throws SevenZipException
 	 */
 	public void loadArchive() throws FileNotFoundException, SevenZipException {
