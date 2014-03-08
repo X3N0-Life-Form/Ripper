@@ -47,20 +47,24 @@ public class KeyTests {
 		key_2.setDestination(URLS.TEST_RESOURCES_RESULTS);
 		
 		file_1 = new File(URLS.RESULTS_TEST01_TXT);
-		control_file_2 = new File(URLS.CONTROLE_GROUP_TEST01_TXT);;
+		control_file_2 = new File(URLS.CONTROL_GROUP_TEST01_TXT);;
 		
 		file_2 = new File(URLS.RESULTS_TEST02_TXT);
-		control_file_2 = new File(URLS.CONTROLE_GROUP_TEST02_TXT);
+		control_file_2 = new File(URLS.CONTROL_GROUP_TEST02_TXT);
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		//TODO:remove old files & folders
+		file_1.delete();
+		file_2.delete();
 	}
 
 	@Test
 	public void test_extract_password_KO() throws SevenZipException, IOException, WorkerException {
+		key_1.setDestination(URLS.TEST_RESOURCES_RESULTS);
 		key_1.extract();
+		assertTrue(file_1.exists());
+		assertFalse(Utils.compareFiles(file_1, control_file_1));
 	}
 	
 	@Test
