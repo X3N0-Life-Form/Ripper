@@ -18,8 +18,9 @@ public class Knife extends Worker implements Runnable {
 	
 	private One one;
 	private String startingPoint = "";
-	private int numberOfIterations;
+	private int numberOfIterations = 500;
 	private Nexus nexus;
+	private String endPoint = null;
 	
 	public Knife(One one, String startingPoint, Nexus nexus) {
 		this.one = one;
@@ -62,19 +63,28 @@ public class Knife extends Worker implements Runnable {
 		
 		String currentPass = startingPoint;
 		boolean passFound = false;
-		nexus.prepareOne(one);
-		for (int i = 0; i < numberOfIterations; i++) {
+		nexus.prepareOne(one);//might be redundant? TODO: look into this
+		if (endPoint == null) {
+			System.out.println("Preparing to run " + numberOfIterations + " attempts from " + currentPass);
+		} else {
+			System.out.println("Preparing to run to " + endPoint + " from " + currentPass);
+		}
+		for (int i = 0; i < numberOfIterations && !currentPass.equals(endPoint); i++) {
+			System.out.print("\nTrying password " + currentPass);
 			one.loadArchive(currentPass);
 			for (int j = 0; j < numberOfItems; j++) {
 				archive.extract(indices, false, callback);
 				
 				File extractedFile = callback.getCurrentFile();
-				if (extractedFile.getTotalSpace() == 0) {
+				if (extractedFile.length() == 0) {
+					System.out.print("\t- KO (attempt #" + i + ")");
 					extractedFile.delete();
 					break;
 				} else {
+					System.out.print("\t- OK");
 					passFound = true;
 				}
+				System.out.println();
 			}
 			
 			if (passFound) {
@@ -92,8 +102,38 @@ public class Knife extends Worker implements Runnable {
 		return folder;
 	}
 
+	/**
+	 * 
+	 * @param currentPass
+	 * @return password that comes right after currentPass
+	 */
 	public static String getNextPassword(String currentPass) {
-		// TODO Auto-generated method stub
-		return null;
+		char[] string = currentPass.toCharArray();
+		boolean bump = true;
+		for (int i = string.length - 1; i >= 0; i--) {
+			if (string[i] < 255) {
+				string[i]++;
+				bump = false;
+				break;
+			} else {
+				string[i] = 0;
+			}
+		}
+		
+		String result = String.copyValueOf(string);
+		if (bump) {
+			char o = 0;
+			result = o + result;
+		}
+		return result;
+	}
+	
+	public void setNumberOfIterations(int numberOfIterations) {
+		this.numberOfIterations = numberOfIterations;
+	}
+	
+	public void setEndPoint(String endPoint) {
+		this.endPoint = endPoint;
+		numberOfIterations = Integer.MAX_VALUE;
 	}
 }

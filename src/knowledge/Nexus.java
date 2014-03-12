@@ -89,6 +89,12 @@ public class Nexus extends AbstractKnowledge {
 		return one;
 	}
 
+	/**
+	 * One's words needs to be remembered.
+	 * @param one
+	 * @param startingPoint
+	 * @param lastWord
+	 */
 	public void saveWords(One one, String startingPoint, String lastWord) {
 		Words words = chamberOfWords.get(one);
 		words.setFirstWord(startingPoint);
