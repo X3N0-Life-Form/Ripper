@@ -75,5 +75,9 @@ public class ExtractCallback implements IArchiveExtractCallback {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public File getCurrentFile() {
+		return currentFile;
+	}
 
 }

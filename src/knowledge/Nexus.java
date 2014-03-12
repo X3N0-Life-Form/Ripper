@@ -81,5 +81,19 @@ public class Nexus extends AbstractKnowledge {
 	public String getFileExtension() {
 		return ".nexus";
 	}
+
+	public One prepareOne(One one) {
+		if (!chamberOfWords.containsKey(one)) {
+			chamberOfWords.put(one, new Words());
+		}
+		return one;
+	}
+
+	public void saveWords(One one, String startingPoint, String lastWord) {
+		Words words = chamberOfWords.get(one);
+		words.setFirstWord(startingPoint);
+		words.setLastWord(lastWord);
+		words.storeWords();
+	}
 	
 }

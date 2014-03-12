@@ -3,10 +3,11 @@ package work;
 import java.io.File;
 import java.io.IOException;
 
-import work.dirt.ExtractCallback;
+import knowledge.Nexus;
 import knowledge.One;
 import net.sf.sevenzipjbinding.ISevenZipInArchive;
 import net.sf.sevenzipjbinding.SevenZipException;
+import work.dirt.ExtractCallback;
 
 /**
  * The one that opens forcibly.
@@ -16,6 +17,15 @@ import net.sf.sevenzipjbinding.SevenZipException;
 public class Knife extends Worker implements Runnable {
 	
 	private One one;
+	private String startingPoint = "";
+	private int numberOfIterations;
+	private Nexus nexus;
+	
+	public Knife(One one, String startingPoint, Nexus nexus) {
+		this.one = one;
+		this.startingPoint = startingPoint;
+		this.nexus = nexus;
+	}
 
 	@Override
 	public void run() {
@@ -49,15 +59,41 @@ public class Knife extends Worker implements Runnable {
 		int[] indices = Worker.getSequentialIndices(numberOfItems);
 		ExtractCallback callback = new ExtractCallback(folder.getAbsolutePath(), one.getArchiveEntries());
 		// Here is the part that is different from Key //
-		//TODO: reload archive with password
-		// attempt extraction
-		// check extracted file size
-		// if not good, iterate
-		// else store password
-		for (int i = 0; i < numberOfItems; i++) {
-			archive.extract(indices, false, callback);
+		
+		String currentPass = startingPoint;
+		boolean passFound = false;
+		nexus.prepareOne(one);
+		for (int i = 0; i < numberOfIterations; i++) {
+			one.loadArchive(currentPass);
+			for (int j = 0; j < numberOfItems; j++) {
+				archive.extract(indices, false, callback);
+				
+				File extractedFile = callback.getCurrentFile();
+				if (extractedFile.getTotalSpace() == 0) {
+					extractedFile.delete();
+					break;
+				} else {
+					passFound = true;
+				}
+			}
+			
+			if (passFound) {
+				nexus.getTruth().addValidPassword(currentPass);
+				break;
+			} else {
+				currentPass = getNextPassword(currentPass);
+			}
+		}
+		
+		if (!passFound) {
+			nexus.saveWords(one, startingPoint, currentPass);
 		}
 		
 		return folder;
+	}
+
+	public static String getNextPassword(String currentPass) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

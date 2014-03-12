@@ -68,6 +68,20 @@ public class One extends AbstractKnowledge implements Comparable<One> {
 		ISevenZipInArchive archive = SevenZip.openInArchive(format, inStream);
 		this.archive = archive;
 	}
+	
+	/**
+	 * Loads One's encrypted archive.
+	 * @param passKey
+	 * @throws FileNotFoundException
+	 * @throws SevenZipException
+	 */
+	public void loadArchive(String passKey) throws FileNotFoundException, SevenZipException {
+		File file = new File(url);
+		RandomAccessFile raf = new RandomAccessFile(file, "r");
+		IInStream inStream = new RandomAccessFileInStream(raf);
+		ISevenZipInArchive archive = SevenZip.openInArchive(format, inStream, passKey);
+		this.archive = archive;
+	}
 
 	@Override
 	public String getFileExtension() {
