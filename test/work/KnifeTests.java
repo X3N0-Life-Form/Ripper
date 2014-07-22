@@ -39,12 +39,21 @@ public class KnifeTests {
 		knife_1.setDestination(URLS.TEST_RESOURCES_RESULTS);
 		
 		file_1 = new File(URLS.RESULTS_TEST01_TXT);
-		control_file_1 = new File(URLS.CONTROL_GROUP_TEST01_TXT);;
+		control_file_1 = new File(URLS.CONTROL_GROUP_TEST01_TXT);
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		file_1.delete();
+	}
+	
+	@Test
+	public void test_calculateNumberOfIterations() {
+		knife_1.setStartingPoint("a");
+		knife_1.setEndPoint("z"); // calls calculateNumberOfIterations()
+		assertTrue(knife_1.getNumberOfIterations() > 0);
+		knife_1.setEndPoint("zz");
+		assertTrue(knife_1.getNumberOfIterations() > 0);
 	}
 
 	@Test
@@ -87,6 +96,7 @@ public class KnifeTests {
 	@Test
 	public void test_extract_basic() throws SevenZipException, IOException, WorkerException {
 		knife_1.setDestination(URLS.TEST_RESOURCES_RESULTS);
+		knife_1.setStartingPoint("hiaa");
 		knife_1.setEndPoint("hjvw");
 		knife_1.extract();
 		assertTrue(file_1.exists());

@@ -64,27 +64,37 @@ public class Knife extends Worker implements Runnable {
 		String currentPass = startingPoint;
 		boolean passFound = false;
 		nexus.prepareOne(one);//might be redundant? TODO: look into this
+		
+		calculateNumberOfIterations();
+		if (numberOfIterations == 0) {
+			numberOfIterations = Integer.MAX_VALUE;
+		}
 		if (endPoint == null) {
 			System.out.println("Preparing to run " + numberOfIterations + " attempts from " + currentPass);
 		} else {
 			System.out.println("Preparing to run to " + endPoint + " from " + currentPass);
 		}
+		
 		for (int i = 0; i < numberOfIterations && !currentPass.equals(endPoint); i++) {
-			System.out.print("\nTrying password " + currentPass);
+			if (i % ((double) numberOfIterations / (double) 100) == 0)
+				System.out.print("\nTrying password " + currentPass); // TODO: refactor that into printif or something like that
 			one.loadArchive(currentPass);
 			for (int j = 0; j < numberOfItems; j++) {
 				archive.extract(indices, false, callback);
 				
 				File extractedFile = callback.getCurrentFile();
 				if (extractedFile.length() == 0) {
-					System.out.print("\t- KO (attempt #" + i + ")");
+					if (i % ((double) numberOfIterations / (double) 100) == 0)
+						System.out.print("\t- KO (attempt #" + i + "/" + numberOfIterations + ")");
 					extractedFile.delete();
 					break;
 				} else {
-					System.out.print("\t- OK");
+					if (i % ((double) numberOfIterations / (double) 100) == 0)
+						System.out.print("\t- OK");
 					passFound = true;
 				}
-				System.out.println();
+				if (i % ((double) numberOfIterations / (double) 100) == 0)
+					System.out.println();
 			}
 			
 			if (passFound) {
@@ -132,8 +142,41 @@ public class Knife extends Worker implements Runnable {
 		this.numberOfIterations = numberOfIterations;
 	}
 	
+	public int getNumberOfIterations() {
+		return numberOfIterations;
+	}
+	
+	/**
+	 * Calculates how much iterations it would take to get from
+	 * starting point to end point.
+	 */
+	protected void calculateNumberOfIterations() {
+		if (endPoint == null || startingPoint == null)
+			return;
+		int epi = endPoint.length() - 1;
+		int spi = startingPoint.length() - 1;
+		numberOfIterations = 0;
+		for (int i = 0; i < endPoint.length(); i++) {
+			int diff = 256;
+			if (epi >= 0 && spi >= 0) {
+				diff = endPoint.charAt(epi) - startingPoint.charAt(spi);
+			}
+			numberOfIterations += diff * Math.pow(2, i);
+			epi--;
+			spi--;
+		}
+	}
+	
+	
 	public void setEndPoint(String endPoint) {
 		this.endPoint = endPoint;
-		numberOfIterations = Integer.MAX_VALUE;
+		calculateNumberOfIterations();
+	}
+	
+	
+
+	public void setStartingPoint(String startingPoint) {
+		this.startingPoint = startingPoint;
+		calculateNumberOfIterations();
 	}
 }
