@@ -22,6 +22,10 @@ public class Necromancer {
 	private Necromancer() {}
 	
 	public static void buryKnowledge(Knowledge toSave) {
+		File folder = new File(pathToKnowledge);
+		if (!folder.exists()) {
+			folder.mkdirs();
+		}
 		String name = toSave.getName();
 		String ext = toSave.getFileExtension();
 		File file = new File(pathToKnowledge + "/" + name + ext);
