@@ -8,8 +8,6 @@ import knowledge.One;
 import net.sf.sevenzipjbinding.ExtractOperationResult;
 import net.sf.sevenzipjbinding.ISevenZipInArchive;
 import net.sf.sevenzipjbinding.SevenZipException;
-import utils.Cypher;
-import work.dirt.ExtractCallback;
 import work.dirt.SequentialOutStream;
 
 /**
