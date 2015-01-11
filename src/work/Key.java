@@ -53,9 +53,7 @@ public class Key extends Worker implements Runnable {
 		int[] indices = Worker.getSequentialIndices(numberOfItems);
 		ExtractCallback callback = new ExtractCallback(folder.getAbsolutePath(), one.getArchiveEntries());
 		
-		for (int i = 0; i < numberOfItems; i++) {
-			archive.extract(indices, false, callback);
-		}
+		archive.extract(indices, false, callback);
 		
 		return folder;
 	}

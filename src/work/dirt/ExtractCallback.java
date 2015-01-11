@@ -6,17 +6,20 @@ import java.io.IOException;
 import net.sf.sevenzipjbinding.ExtractAskMode;
 import net.sf.sevenzipjbinding.ExtractOperationResult;
 import net.sf.sevenzipjbinding.IArchiveExtractCallback;
+import net.sf.sevenzipjbinding.ICryptoGetTextPassword;
 import net.sf.sevenzipjbinding.ISequentialOutStream;
 import net.sf.sevenzipjbinding.SevenZipException;
 
-public class ExtractCallback implements IArchiveExtractCallback {
+public class ExtractCallback implements IArchiveExtractCallback, ICryptoGetTextPassword {
 
 	private int currentIndex = -1;
 	private long currentCompletionValue = 0;
+	private long totalCompletion;
 	private File currentFile = null;
 	private ISequentialOutStream currentOutStream = null;
 	private String destinationDirectory = ".";
 	private String[] archiveEntries = null;
+	private String textPassword;
 	
 	public ExtractCallback(String destinationDirectory, String[] archiveEntries) {
 		this.destinationDirectory = destinationDirectory;
@@ -30,8 +33,7 @@ public class ExtractCallback implements IArchiveExtractCallback {
 
 	@Override
 	public void setTotal(long total) throws SevenZipException {
-		// TODO Auto-generated method stub
-		
+		totalCompletion = total;
 	}
 
 	@Override
@@ -78,6 +80,15 @@ public class ExtractCallback implements IArchiveExtractCallback {
 	
 	public File getCurrentFile() {
 		return currentFile;
+	}
+
+	public void setTextPassword(String password) {
+		textPassword = password;
+	}
+	
+	@Override
+	public String cryptoGetTextPassword() throws SevenZipException {
+		return textPassword;
 	}
 
 }
