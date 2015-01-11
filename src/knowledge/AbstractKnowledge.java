@@ -22,4 +22,9 @@ public abstract class AbstractKnowledge implements Knowledge {
 	public String getName() {
 		return name;
 	}
+	
+	@Override
+	public String getSimpleName() {
+		return name.substring(name.lastIndexOf('/') + 1);
+	}
 }

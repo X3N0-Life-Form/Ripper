@@ -13,6 +13,7 @@ import knowledge.One;
 public abstract class Worker {
 
 	protected String destination;
+	protected WorkerPrintMode printMode = WorkerPrintMode.EACH_LOOP;
 	
 	public void setDestination(String url) {
 		this.destination = url;

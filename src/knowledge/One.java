@@ -32,11 +32,13 @@ public class One extends AbstractKnowledge implements Comparable<One> {
 	
 	private ArchiveFormat format;
 	private String url;
+	private String passKey;
 	
 	public One(String name, ArchiveFormat format, String url) {
 		this.name = name;
 		this.format = format;
 		this.url = url;
+		this.passKey = "";
 	}
 
 	public ISevenZipInArchive getArchive() {
@@ -72,15 +74,18 @@ public class One extends AbstractKnowledge implements Comparable<One> {
 	/**
 	 * Loads One's encrypted archive.
 	 * @param passKey
+	 * @return Newly loaded archive.
 	 * @throws FileNotFoundException
 	 * @throws SevenZipException
 	 */
-	public void loadArchive(String passKey) throws FileNotFoundException, SevenZipException {
+	public ISevenZipInArchive loadArchive(String passKey) throws FileNotFoundException, SevenZipException {
 		File file = new File(url);
 		RandomAccessFile raf = new RandomAccessFile(file, "r");
 		IInStream inStream = new RandomAccessFileInStream(raf);
 		ISevenZipInArchive archive = SevenZip.openInArchive(format, inStream, passKey);
 		this.archive = archive;
+		this.passKey = passKey;
+		return archive;
 	}
 
 	@Override
@@ -103,5 +108,11 @@ public class One extends AbstractKnowledge implements Comparable<One> {
 		}
 		
 		return entries;
+	}
+
+	@Override
+	public String toString() {
+		return "One [format=" + format + ", url=" + url + ", passKey="
+				+ passKey + "]";
 	}
 }

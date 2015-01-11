@@ -24,6 +24,9 @@ public class KnifeTests {
 	private File file_1;
 	private File control_file_1;
 	
+	private File file_2;
+	private File control_file_2;
+	
 	private Nexus nexus;
 
 	@BeforeClass
@@ -33,18 +36,22 @@ public class KnifeTests {
 	@Before
 	public void setUp() throws Exception {
 		nexus = new Nexus();
-		one = nexus.prepareOne(URLS.TEST01_ARCHIVE);
+		one = nexus.prepareOne(URLS.TEST03_ARCHIVE);
 		
 		knife_1 = new Knife(one, "", nexus);
 		knife_1.setDestination(URLS.TEST_RESOURCES_RESULTS);
 		
-		file_1 = new File(URLS.RESULTS_TEST01_TXT);
-		control_file_1 = new File(URLS.CONTROL_GROUP_TEST01_TXT);
+		file_1 = new File(URLS.RESULTS_TEST03a_TXT);
+		control_file_1 = new File(URLS.CONTROL_GROUP_TEST03a_TXT);
+		
+		file_2 = new File(URLS.RESULTS_TEST03b_TXT);
+		control_file_2 = new File(URLS.CONTROL_GROUP_TEST03b_TXT);
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		file_1.delete();
+		file_2.delete();
 	}
 	
 	@Test
@@ -96,10 +103,12 @@ public class KnifeTests {
 	@Test
 	public void test_extract_basic() throws SevenZipException, IOException, WorkerException {
 		knife_1.setDestination(URLS.TEST_RESOURCES_RESULTS);
-		knife_1.setStartingPoint("hiaa");
+		knife_1.setStartingPoint("hjaa");
 		knife_1.setEndPoint("hjvw");
 		knife_1.extract();
 		assertTrue(file_1.exists());
 		assertTrue(Utils.compareFiles(file_1, control_file_1));
+		assertTrue(file_2.exists());
+		assertTrue(Utils.compareFiles(file_2, control_file_2));
 	}
 }

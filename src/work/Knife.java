@@ -5,9 +5,12 @@ import java.io.IOException;
 
 import knowledge.Nexus;
 import knowledge.One;
+import net.sf.sevenzipjbinding.ExtractOperationResult;
 import net.sf.sevenzipjbinding.ISevenZipInArchive;
 import net.sf.sevenzipjbinding.SevenZipException;
+import utils.Cypher;
 import work.dirt.ExtractCallback;
+import work.dirt.SequentialOutStream;
 
 /**
  * The one that opens forcibly.
@@ -36,6 +39,23 @@ public class Knife extends Worker implements Runnable {
 			//TODO: log error
 		}
 	}
+	
+	/**
+	 * Prints a message, either evey loop or every 1% of iterations.
+	 * @param counter Loop counter, important if you are in EVERY_PERCENT mode.
+	 * @param message Message to print.
+	 */
+	public void printif(int counter, String message) {
+		switch (printMode) {
+		case EACH_LOOP:
+			System.out.print(message);
+			break;
+		case EVERY_PERCENT:
+			if (counter % ((double) numberOfIterations / (double) 100) == 0)
+				System.out.print(message);
+			break;
+		}
+	}
 
 	/**
 	 * Extraction subroutine.
@@ -57,8 +77,8 @@ public class Knife extends Worker implements Runnable {
 		
 		ISevenZipInArchive archive = one.getArchive();
 		int numberOfItems = archive.getNumberOfItems();
-		int[] indices = Worker.getSequentialIndices(numberOfItems);
-		ExtractCallback callback = new ExtractCallback(folder.getAbsolutePath(), one.getArchiveEntries());
+		//int[] indices = Worker.getSequentialIndices(numberOfItems);
+		//ExtractCallback callback = new ExtractCallback(folder.getAbsolutePath(), one.getArchiveEntries());
 		// Here is the part that is different from Key //
 		
 		String currentPass = startingPoint;
@@ -75,26 +95,27 @@ public class Knife extends Worker implements Runnable {
 			System.out.println("Preparing to run to " + endPoint + " from " + currentPass);
 		}
 		
-		for (int i = 0; i < numberOfIterations && !currentPass.equals(endPoint); i++) {
-			if (i % ((double) numberOfIterations / (double) 100) == 0)
-				System.out.print("\nTrying password " + currentPass); // TODO: refactor that into printif or something like that
-			one.loadArchive(currentPass);
+		for (int i = 0; i <= numberOfIterations && !currentPass.equals(endPoint); i++) {
+			printif(i, "\nTrying password " + currentPass);
+			//callback.setTextPassword(currentPass);
+			archive = one.loadArchive(currentPass);
 			for (int j = 0; j < numberOfItems; j++) {
-				archive.extract(indices, false, callback);
+				String itemPath = archive.getSimpleInterface().getArchiveItem(j).getPath();
+				File file = new File(destination + one.getSimpleName() + "/" + itemPath);
+				SequentialOutStream outstream = new SequentialOutStream(file);
+				//archive.extract(indices, false, callback);
+				ExtractOperationResult result = archive.extractSlow(j, outstream, currentPass);
 				
-				File extractedFile = callback.getCurrentFile();
-				if (extractedFile.length() == 0) {
-					if (i % ((double) numberOfIterations / (double) 100) == 0)
-						System.out.print("\t- KO (attempt #" + i + "/" + numberOfIterations + ")");
-					extractedFile.delete();
+				//File extractedFile = callback.getCurrentFile();
+				if (result != ExtractOperationResult.OK/*extractedFile.length() == 0*/) {
+					printif(i, "\t- KO " + result + " (attempt #" + (i + 1) + "/" + numberOfIterations + ")");
+					//extractedFile.delete();
 					break;
-				} else {
-					if (i % ((double) numberOfIterations / (double) 100) == 0)
-						System.out.print("\t- OK");
+				} else if (!passFound) {
+					printif(i, "\t- OK");
 					passFound = true;
 				}
-				if (i % ((double) numberOfIterations / (double) 100) == 0)
-					System.out.println();
+				printif(i, "\n");
 			}
 			
 			if (passFound) {
@@ -156,14 +177,24 @@ public class Knife extends Worker implements Runnable {
 		int epi = endPoint.length() - 1;
 		int spi = startingPoint.length() - 1;
 		numberOfIterations = 0;
+		int[] diffs = new int[endPoint.length()];
+		
+		// Gather intel
 		for (int i = 0; i < endPoint.length(); i++) {
 			int diff = 256;
 			if (epi >= 0 && spi >= 0) {
 				diff = endPoint.charAt(epi) - startingPoint.charAt(spi);
+			} else if (spi < 0) {
+				diff = endPoint.charAt(epi);
 			}
-			numberOfIterations += diff * Math.pow(2, i);
+			diffs[i] = diff;
 			epi--;
 			spi--;
+		}
+		
+		// Use intel
+		for (int i = 0; i < endPoint.length(); i++) {
+			numberOfIterations += diffs[i] * Math.pow(256, i);
 		}
 	}
 	
