@@ -13,7 +13,9 @@ import net.sf.sevenzipjbinding.SevenZipException;
 public class ExtractCallback implements IArchiveExtractCallback, ICryptoGetTextPassword {
 
 	private int currentIndex = -1;
+	@SuppressWarnings("unused")
 	private long currentCompletionValue = 0;
+	@SuppressWarnings("unused")
 	private long totalCompletion;
 	private File currentFile = null;
 	private ISequentialOutStream currentOutStream = null;
