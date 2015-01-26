@@ -36,4 +36,8 @@ public class JackTests {
 		assertTrue(Jack.getTargets().contains("test03.zip"));
 	}
 	
+	@Test
+	public void test_displayKnowledge() {
+		fail("Not implemented.");
+	}
 }

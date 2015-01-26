@@ -110,5 +110,6 @@ public class KnifeTests {
 		assertTrue(Utils.compareFiles(file_1, control_file_1));
 		assertTrue(file_2.exists());
 		assertTrue(Utils.compareFiles(file_2, control_file_2));
+		fail("TODO: save knowledge");
 	}
 }

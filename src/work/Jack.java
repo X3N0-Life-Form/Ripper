@@ -5,8 +5,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import knowledge.Nexus;
 
 /**
  * Main entry point. Launches everything.
@@ -40,16 +43,26 @@ public class Jack {
 	
 	private static int numberOfThreads = 1;
 
+	/**
+	 * Main entry point.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		try {
 			dealWithArgs(args);
-			
-		} catch (IOException e) {
+			//TODO: do shit with args
+		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
 
-	protected static void dealWithArgs(String[] args) throws IOException {
+	/**
+	 * Interprets the program's arguments.
+	 * @param args Argument list.
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	protected static void dealWithArgs(String[] args) throws IOException, ClassNotFoundException {
 		for (int i = 0; i < args.length; i++) {
 			String arg = args[i];
 			
@@ -64,11 +77,38 @@ public class Jack {
 				targetDirectory = args[++i];
 				break;
 			case "--displayKnowledge":
-				// recap knowledge contained in knowledge directory
+				System.out.println(knowledgeToString());
 				break;
 			}
 			
 		}
+	}
+	
+	/**
+	 * Analyzes knowledge and translates it as a String. Requires the knowledge directory to be set.
+	 * @return
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	public static String knowledgeToString() throws IOException, ClassNotFoundException { //TODO: maybe delay knowledge display until we get the knowledge directory.
+		String res = "";
+		File folder = new File(knowledgeDirectory);
+		for (File currentFile : folder.listFiles()) {
+			FileInputStream fis = new FileInputStream(currentFile);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			String ext = currentFile.getName().substring(currentFile.getName().lastIndexOf('.'));
+			switch (ext) {
+			case ".nexus":
+				Nexus nexus = (Nexus) ois.readObject();
+				res += nexus;
+				break;
+			default:
+				res += "Unrecognised knowledge: " + ext;
+				break;
+			}
+			ois.close();
+		}
+		return res;
 	}
 
 	public static void displayHelp() {
@@ -86,6 +126,11 @@ public class Jack {
 		}
 	}
 
+	/**
+	 * Reads an option file and sets attributes accordingly.
+	 * @param fileURL URL to option file.
+	 * @throws IOException
+	 */
 	public static void readOptions(String fileURL) throws IOException {
 		File file = new File(fileURL);
 		FileInputStream fis = new FileInputStream(file);
