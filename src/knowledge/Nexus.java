@@ -101,5 +101,15 @@ public class Nexus extends AbstractKnowledge {
 		words.setLastWord(lastWord);
 		words.storeWords();
 	}
+
+	@Override
+	public String toString() {
+		String res = "Nexus [name=" + name + ", chamberOfWords=";
+		for (One key : chamberOfWords.keySet()) {
+			res += "\n\t" + key + " ==> " + chamberOfWords.get(key);
+		}
+		res += "\n\thallOfSuccess=" + hallOfSuccess + "\n\ttruth=" + truth + "\n]";
+		return res;
+	}
 	
 }

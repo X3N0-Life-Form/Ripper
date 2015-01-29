@@ -1,6 +1,7 @@
 package knowledge;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -58,5 +59,15 @@ public class Words extends AbstractKnowledge {
 	@Override
 	public String getFileExtension() {
 		return ".words";
+	}
+
+	@Override
+	public String toString() {
+		String res = "Words [spokenWords=" + Arrays.toString(spokenWords) + ", oldWords=[ ";
+		for (String[] words : oldWords) {
+			res += Arrays.toString(words) + " ";
+		}
+		res += "], rightWord=" + rightWord +"]";
+		return res;
 	}
 }

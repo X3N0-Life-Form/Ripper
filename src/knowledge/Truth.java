@@ -28,4 +28,14 @@ public class Truth extends AbstractKnowledge {
 	public String getFileExtension() {
 		return ".truth";
 	}
+
+	@Override
+	public String toString() {
+		String res = "Truth [validPasswords=";
+		for (String pass : validPasswords) {
+			res += pass + " ";
+		}
+		res += "]";
+		return res;
+	}
 }

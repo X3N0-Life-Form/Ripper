@@ -91,9 +91,10 @@ public class Jack {
 	 * @throws ClassNotFoundException
 	 */
 	public static String knowledgeToString() throws IOException, ClassNotFoundException { //TODO: maybe delay knowledge display until we get the knowledge directory.
-		String res = "";
+		String res = "Our Knowledge:";
 		File folder = new File(knowledgeDirectory);
 		for (File currentFile : folder.listFiles()) {
+			res += "\n";
 			FileInputStream fis = new FileInputStream(currentFile);
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			String ext = currentFile.getName().substring(currentFile.getName().lastIndexOf('.'));
@@ -184,6 +185,10 @@ public class Jack {
 	
 	public static String getKnowledgeDirectory() {
 		return knowledgeDirectory;
+	}
+	
+	public static void setKnowledgeDirectory(String url) {
+		knowledgeDirectory = url;
 	}
 	
 	public static int getNumberOfThreads() {
