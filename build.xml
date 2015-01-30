@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Ripper"
+	basedir="."
+	default="build">
+	<!-- Using ANT 1.7 -->
+	<property name="src" location="src"/>
+	<property name="bin" location="bin"/>
+	<property name="lib" location="lib"/>
+
+	<target name="build" description="Build a runnable JAR">
+		<jar destfile="Ripper.jar" filesetmanifest="mergewithoutmain">
+			<manifest>
+				<attribute name="Main-Class" value="work.Jack"/>
+				<attribute name="Class-Path" value="."/>
+			</manifest>
+			<fileset dir="${bin}"/>
+			<zipfileset excludes="META-INF/*.SF" src="${lib}/sevenzipjbinding-AllPlatforms.jar"/>
+			<zipfileset excludes="META-INF/*.SF" src="${lib}/sevenzipjbinding.jar"/>
+			<!-- <zipfileset excludes="META-INF/*.SF" src="/home/etudiant/eclipse-luna/plugins/org.junit_4.11.0.v201303080030/junit.jar"/> -->
+			<!-- <zipfileset excludes="META-INF/*.SF" src="/home/etudiant/eclipse-luna/plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/> -->
+		</jar>
+	</target>
+</project>
