@@ -28,6 +28,7 @@ public class Jack {
 		KNIFE,
 		EVE
 	}
+	private static ExtractMode extractMode;
 	
 	protected enum ReadMode {
 		OPTION,
@@ -40,6 +41,7 @@ public class Jack {
 	private static List<String> targets = new ArrayList<String>();
 	private static String destinationDirectory;
 	private static String knowledgeDirectory;
+	private static String[] range = new String[2];
 	
 	private static int numberOfThreads = 1;
 
@@ -70,15 +72,28 @@ public class Jack {
 			case "--help":
 				displayHelp();
 				break;
+			case "--displayKnowledge":
+				System.out.println(knowledgeToString());
+				break;
 			case "--option-file":
 				readOptions(args[++i]);
 				break;
 			case "--targetDirectory":
 				targetDirectory = args[++i];
 				break;
-			case "--displayKnowledge":
-				System.out.println(knowledgeToString());
+			case "--knowledgeDirectory":
+				knowledgeDirectory = args[++i];
 				break;
+			case "--destinationDirectory":
+				destinationDirectory = args[++i];
+				break;
+			case "--mode":
+				extractMode = identifyMode(args[++i]);
+				if (extractMode == ExtractMode.KNIFE)
+					range = identifyRange(args[++i]);
+				break;
+			default:
+				System.out.println("Unrecognised argument: " + args[i]);
 			}
 			
 		}
@@ -154,6 +169,10 @@ public class Jack {
 				readMode = ReadMode.TARGET;
 			} else if (line.startsWith("#threads:")) {
 				numberOfThreads = Integer.parseInt(extractOption(line));
+			} else if (line.startsWith("#extract-mode:")) {
+				extractMode = identifyMode(extractOption(line));
+			} else if (line.startsWith("#range:")) {
+				range = identifyRange(extractOption(line));
 			} else {
 				System.out.println("Unrecognised option: " + line);
 			}
@@ -169,6 +188,31 @@ public class Jack {
 	 */
 	protected static String extractOption(String line) {
 		return line.substring(line.indexOf(":") + 1).trim();
+	}
+	
+	/**
+	 * Defaults to {@link ExtractMode}.KEY
+	 * @param line
+	 * @return
+	 */
+	protected static ExtractMode identifyMode(String line) {
+		switch (line) {
+		case "eve":
+			return ExtractMode.EVE;
+		case "key":
+			return ExtractMode.KEY;
+		case "knife":
+			return ExtractMode.KNIFE;
+		default:
+			return ExtractMode.KEY;
+		}
+	}
+	
+	protected static String[] identifyRange(String line) {
+		String[] range = new String[2];
+		range[0] = line.substring(0, line.indexOf(":")).trim();
+		range[1] = line.substring(line.indexOf(":") + 1).trim();
+		return range;
 	}
 	
 	///
@@ -197,6 +241,14 @@ public class Jack {
 	
 	public static List<String> getTargets() {
 		return targets;
+	}
+	
+	public static String[] getRange() {
+		return range;
+	}
+	
+	public static ExtractMode getMode() {
+		return extractMode;
 	}
 
 }

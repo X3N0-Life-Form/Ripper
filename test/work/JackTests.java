@@ -56,6 +56,9 @@ public class JackTests {
 		assertEquals(8, Jack.getNumberOfThreads());
 		assertTrue(Jack.getTargets().contains("test02.7z"));
 		assertTrue(Jack.getTargets().contains("test03.zip"));
+		assertTrue(Jack.getMode() == Jack.ExtractMode.KNIFE);
+		assertEquals("aaa", Jack.getRange()[0]);
+		assertEquals("bbb", Jack.getRange()[1]);
 	}
 	
 	@Test
@@ -65,4 +68,5 @@ public class JackTests {
 		System.out.println(s);
 		assertTrue(s.contains("test-nexus"));
 	}
+	
 }
