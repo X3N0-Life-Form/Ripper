@@ -7,11 +7,11 @@ Requirements
 ------------
 - SevenZip JBindings (included)
 - Java 7
-- Ant
+- Ant 1.7
 
 Building
 --------
-TODO (will be using ant)
+`ant build`
 
 Usage
 -----

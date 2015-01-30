@@ -27,8 +27,10 @@ public class URLS {
 	/// Launch test URLs
 	///
 	
-	public static final String LAUNCH_ARCHIVE_KEY = "test-resources/archives/key";
-	public static final String LAUNCH_ARCHIVE_KNIFE = "test-resources/archives/knife";
-	public static final String LAUNCH_KNOWLEDGE_KEY = "test-resources/serializedDate/key";
-	public static final String LAUNCH_KNOWLEDGE_KNIFE = "test-resources/serializedDate/knife";
+	public static final String LAUNCH_ARCHIVE_KEY = "test-resources/archives/launch/key";
+	public static final String LAUNCH_ARCHIVE_KNIFE = "test-resources/archives/launch/knife";
+	public static final String LAUNCH_KNOWLEDGE_KEY = "test-resources/serializedDate/launch/key";
+	public static final String LAUNCH_KNOWLEDGE_KNIFE = "test-resources/serializedDate/launch/knife";
+	public static final String LAUNCH_RESULT_KEY = "test-resources/launch/results/key";
+	public static final String LAUNCH_RESULT_KNIFE = "test-resources/launch/results/knife";
 }
