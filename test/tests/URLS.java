@@ -31,6 +31,8 @@ public class URLS {
 	public static final String LAUNCH_ARCHIVE_KNIFE = "test-resources/archives/launch/knife";
 	public static final String LAUNCH_KNOWLEDGE_KEY = "test-resources/serializedDate/launch/key";
 	public static final String LAUNCH_KNOWLEDGE_KNIFE = "test-resources/serializedDate/launch/knife";
-	public static final String LAUNCH_RESULT_KEY = "test-resources/launch/results/key";
-	public static final String LAUNCH_RESULT_KNIFE = "test-resources/launch/results/knife";
+	public static final String LAUNCH_RESULT_KEY = "test-resources/results/launch/key";
+	public static final String LAUNCH_RESULT_KNIFE = "test-resources/results/launch/knife";
+	public static final String LAUNCH_CONTROL_KEY = "test-resources/controlGroup/launch/key";
+	public static final String LAUNCH_CONTROL_KNIFE = "test-resources/controlGroup/launch/knife";
 }
