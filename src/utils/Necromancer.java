@@ -1,8 +1,10 @@
 package utils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import knowledge.Knowledge;
@@ -38,6 +40,15 @@ public class Necromancer {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public static Knowledge unEarthKnowledge(String toLoad) throws IOException, ClassNotFoundException {
+		File file = new File(pathToKnowledge + "/" + toLoad);
+		FileInputStream fis = new FileInputStream(file);
+		ObjectInputStream ois = new ObjectInputStream(fis);
+		Knowledge res = (Knowledge) ois.readObject();
+		ois.close();
+		return res;
 	}
 
 	public static void setPathToKnowledge(String url) {
