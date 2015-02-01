@@ -10,7 +10,7 @@ import knowledge.One;
  * @author X3N0-Life-Form
  *
  */
-public abstract class Worker {
+public abstract class Worker implements Runnable {
 
 	protected String destination;
 	protected WorkerPrintMode printMode = WorkerPrintMode.EACH_LOOP;

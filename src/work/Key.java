@@ -13,7 +13,7 @@ import work.dirt.ExtractCallback;
  * @author X3N0-Life-Form
  *
  */
-public class Key extends Worker implements Runnable {
+public class Key extends Worker {
 	
 	private One one;
 	
@@ -24,6 +24,7 @@ public class Key extends Worker implements Runnable {
 	@Override
 	public void run() {
 		try {
+			System.out.println("[Key] Starting Key thread for " + one.getName());
 			extract();
 		} catch (SevenZipException | IOException | WorkerException e) {
 			//TODO: log error
