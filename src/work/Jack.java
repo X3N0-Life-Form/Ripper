@@ -7,9 +7,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import net.sf.sevenzipjbinding.SevenZipException;
+import utils.CypherException;
+import utils.Necromancer;
+import knowledge.KnowledgeException;
 import knowledge.Nexus;
+import knowledge.One;
 
 /**
  * Main entry point. Launches everything.
@@ -44,6 +50,8 @@ public class Jack {
 	private static String[] range = new String[2];
 	
 	private static int numberOfThreads = 1;
+	private static List<Worker> workers;
+	
 
 	/**
 	 * Main entry point.
@@ -52,10 +60,76 @@ public class Jack {
 	public static void main(String[] args) {
 		try {
 			dealWithArgs(args);
-			//TODO: do shit with args
-		} catch (IOException | ClassNotFoundException e) {
+			findTargets();
+			printRecap();
+			// Final object creations
+			workers = new ArrayList<Worker>(numberOfThreads);
+			Nexus nexus;
+			File f_nexus = new File(knowledgeDirectory + "/" + getKnowledgeName());
+			if (knowledgeDirectory != null && f_nexus.exists()) {
+				System.out.println("Knowledge: Found a nexus file: " + f_nexus.getName());
+				Necromancer.setPathToKnowledge(knowledgeDirectory);
+				nexus = (Nexus) Necromancer.unEarthKnowledge(getKnowledgeName());
+			} else {
+				System.out.println("Knowledge: No nexus file at " + f_nexus.getName());
+				nexus = new Nexus();
+			}
+			
+			// Extraction subroutine
+			for (String target : targets) {
+				System.out.println("Preparing to extract target " + target);
+				One one = nexus.prepareOne(targetDirectory + "/" + target);
+				switch (extractMode) {
+				case KEY:
+					Key key = new Key(one);
+					workers.add(key);
+					break;
+				case KNIFE:
+					for (int i = 0; i < numberOfThreads; i++) {
+						Knife knife = prepareKnife(one, nexus);
+						workers.add(knife);
+					}
+					break;
+				case EVE:
+					System.out.println("EVE mode not implemented");
+					break;
+				}
+				
+				for (Worker worker : workers) {
+					Thread t = new Thread(worker);
+					t.start();
+				}
+			}
+		} catch (IOException | ClassNotFoundException | CypherException | SevenZipException | KnowledgeException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Finds targets at the target directory & add the to the targets list.
+	 */
+	protected static void findTargets() {
+		File folder = new File(targetDirectory);
+		targets.addAll(Arrays.asList(folder.list()));
+	}
+
+	/**
+	 * Get the knowledge's name, according to the target directory name.
+	 * @return directory name + ".nexus" file extension.
+	 */
+	public static String getKnowledgeName() {
+		return targetDirectory.substring(targetDirectory.lastIndexOf('/')) + ".nexus";
+	}
+
+	/**
+	 * Prepares a Knife according to Jack's parameters, namely the chosen range, number of threads & nexus data.
+	 * @param one The one we are preparing to knife.
+	 * @param nexus May contain data regarding past knifing attempts.
+	 * @return
+	 */
+	protected static Knife prepareKnife(One one, Nexus nexus) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**
@@ -133,13 +207,15 @@ public class Jack {
 	}
 	
 	public static void printRecap() {
-		System.out.println("Target directory: " + targetDirectory);
-		System.out.println("Destination directory: " + destinationDirectory);
-		System.out.println("Knowledge directory: " + knowledgeDirectory);
+		System.out.println("# Beginning recap");
+		System.out.println("Target directory:\t" + targetDirectory);
+		System.out.println("Destination directory:\t" + destinationDirectory);
+		System.out.println("Knowledge directory:\t" + knowledgeDirectory);
 		System.out.println("Targets:");
 		for (String target : targets) {
 			System.out.println("\t" + target);
 		}
+		System.out.println("# End recap");
 	}
 
 	/**
