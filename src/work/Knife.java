@@ -15,7 +15,7 @@ import work.dirt.SequentialOutStream;
  * @author X3N0-Life-Form
  *
  */
-public class Knife extends Worker implements Runnable {
+public class Knife extends Worker {
 	
 	private One one;
 	private String startingPoint = "";
@@ -32,6 +32,7 @@ public class Knife extends Worker implements Runnable {
 	@Override
 	public void run() {
 		try {
+			System.out.println("[Knife] Starting Knife thread for " + one.getName());
 			extract();
 		} catch (SevenZipException | IOException | WorkerException e) {
 			//TODO: log error
@@ -88,9 +89,9 @@ public class Knife extends Worker implements Runnable {
 			numberOfIterations = Integer.MAX_VALUE;
 		}
 		if (endPoint == null) {
-			System.out.println("Preparing to run " + numberOfIterations + " attempts from " + currentPass);
+			System.out.println("[Knife] Preparing to run " + numberOfIterations + " attempts from " + currentPass);
 		} else {
-			System.out.println("Preparing to run to " + endPoint + " from " + currentPass);
+			System.out.println("[Knife] Preparing to run to " + endPoint + " from " + currentPass);
 		}
 		
 		for (int i = 0; i <= numberOfIterations && !currentPass.equals(endPoint); i++) {

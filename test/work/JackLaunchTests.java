@@ -9,11 +9,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import tests.URLS;
+import tests.Utils;
 
 public class JackLaunchTests {
 
 	private File key1, key2, key3;
 	private File knife1, knife2a, knife2b, knife3, knife4;
+	private File knife1_control, knife2a_control, knife2b_control, knife3_control, knife4_control;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -26,6 +28,12 @@ public class JackLaunchTests {
 		knife2b = new File(URLS.LAUNCH_RESULT_KNIFE + "/knife2/knife2b.txt");
 		knife3 = new File(URLS.LAUNCH_RESULT_KNIFE + "/knife3/knife3.txt");
 		knife4 = new File(URLS.LAUNCH_RESULT_KNIFE + "/knife4/knife4_different.txt");
+		
+		knife1_control = new File(URLS.LAUNCH_CONTROL_KNIFE + "/knife.txt");
+		knife2a_control = new File(URLS.LAUNCH_CONTROL_KNIFE + "/knife2a.txt");
+		knife2b_control = new File(URLS.LAUNCH_CONTROL_KNIFE + "/knife2b.txt");
+		knife3_control = new File(URLS.LAUNCH_CONTROL_KNIFE + "/knife3.txt");
+		knife4_control = new File(URLS.LAUNCH_CONTROL_KNIFE + "/knife4_different.txt");
 	}
 
 	@After
@@ -62,6 +70,12 @@ public class JackLaunchTests {
 		assertTrue(knife2b.exists());
 		assertTrue(knife3.exists());
 		assertTrue(knife4.exists());
+		
+		assertTrue(Utils.compareFiles(knife1, knife1_control));
+		assertTrue(Utils.compareFiles(knife2a, knife2a_control));
+		assertTrue(Utils.compareFiles(knife2b, knife2b_control));
+		assertTrue(Utils.compareFiles(knife3, knife3_control));
+		assertTrue(Utils.compareFiles(knife4, knife4_control));
 		// check knowledge
 	}
 	

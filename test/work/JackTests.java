@@ -69,4 +69,8 @@ public class JackTests {
 		assertTrue(s.contains("test-nexus"));
 	}
 	
+	//TODO:
+	//prepare knife
+	//get knowledge name
+	//find targets
 }
